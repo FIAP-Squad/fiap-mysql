@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - 'feat/provision-aws-rds'
-
+  workflow_call:
+    secrets:
+        AWS_ACCESS_KEY_ID: {required: true}
+        AWS_SECRET_ACCESS_KEY: {required: true}
 jobs:
   terraform:
     name: 'Terraform'
