@@ -18,6 +18,14 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v4
 
+      - name: 'Setup AWS credentials'
+        run: |
+          mkdir -p ~/.aws
+          echo "[${{ secrets.AWS_PROFILE }}]" > ~/.aws/config
+          echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/config
+          echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/config
+          echo "region = ${{ secrets.AWS_REGION }}" >> ~/.aws/config
+
       - name: 'Setup Terraform'
         uses: hashicorp/setup-terraform@v3
         env:
