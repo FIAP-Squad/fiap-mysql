@@ -17,12 +17,6 @@ jobs:
       - name: 'Setup Terraform'
         uses: hashicorp/setup-terraform@v3
 
-      - name: Add profile credentials to ~/.aws/credentials
-        run: |
-          aws configure --profile rds-fiap-api
-          aws configure set aws_session_token ${{ secrets.AWS_SESSION_TOKEN }} --profile rds-fiap-api
-          aws configure set region ${{ secrets.AWS_REGION }} --profile rds-fiap-api
-
       - name: Configure AWS Credentials 2
         uses: aws-actions/configure-aws-credentials@v4
         with:
