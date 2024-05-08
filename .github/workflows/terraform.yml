@@ -28,6 +28,12 @@ jobs:
 
       - name: 'Terraform Apply'
         run: terraform apply -auto-approve
+
+      - name: 'Get RDS endpoint'
+        id: rds
+        run: echo "::set-output name=endpoint::$(terraform output -raw rds_endpoint)"
+        
       - name: 'Execute SQL script'
         run: |
-          mysql --host=<your-db-host> --user=<your-db-user> --password=<your-db-password> --database=<your-db-name> < scripts/your-script.sql
+          mysql --host=${{ steps.rds.outputs.endpoint }} --user=${{env.MYSQL_USER}} --password=${{secrets.MYSQL_PASSWORD}} -P ${{MYSQL_PORT}} --database=${{env.MYSQL_DBNAME}} < scripts/migration_prod.sql
+        
