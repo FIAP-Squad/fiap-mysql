@@ -35,5 +35,5 @@ jobs:
         
       - name: 'Execute SQL script'
         run: |
-          mysql --host=${{ steps.rds.outputs.endpoint }} --user=${{env.MYSQL_USER}} --password=${{secrets.MYSQL_PASSWORD}} -P ${{MYSQL_PORT}} --database=${{env.MYSQL_DBNAME}} < scripts/migration_prod.sql
+          mysql --host=${{ steps.rds.outputs.endpoint }} --user=${{env.MYSQL_USER}} --password=${{secrets.MYSQL_PASSWORD}} -P ${{env.MYSQL_PORT}} --database=${{env.MYSQL_DBNAME}} < scripts/migration_prod.sql
         
