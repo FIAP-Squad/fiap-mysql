@@ -3,7 +3,7 @@ name: 'Terraform'
 on:
   push:
     branches:
-      - 'feat/provision-aws-rds'
+      - 'main'
   pull_request:
     branches:
       - 'feat/provision-aws-rds'
