@@ -36,12 +36,12 @@ jobs:
         id: apply
         run: terraform apply -auto-approve
     
-      - name: 'Set RDS Endpoint as Env Var'
-        run: echo "RDS_ENDPOINT=$(terraform output -raw rds_endpoint)" >> $GITHUB_ENV
+      - name: 'Set RDS Address as Env Var'
+        run: echo "RDS_ADDRESS=$(terraform output -raw rds_address)" >> $GITHUB_ENV
         
       - name: 'Execute SQL script'
         run: |
-          mysql --host=${{  env.RDS_ENDPOINT }} --user=${{env.MYSQL_USER}} --password=${{secrets.MYSQL_PASSWORD}} -P 3306 --database=${{env.MYSQL_DBNAME}} --protocol=TCP < scripts/migration_prod.sql
+          mysql --host=${{  env.RDS_ADDRESS }} -P 3306 --user=${{env.MYSQL_USER}} --password=${{secrets.MYSQL_PASSWORD}} --database=${{env.MYSQL_DBNAME}}  --protocol=TCP < scripts/migration_prod.sql
 
       - name: 'Terraform Destroy'
         run: terraform destroy -auto-approve
