@@ -33,15 +33,12 @@ jobs:
         run: terraform plan
 
       - name: 'Terraform Apply'
+        id: apply
         run: terraform apply -auto-approve
-
-      - name: 'Get RDS endpoint'
-        id: rds
-        run: echo "::set-output name=endpoint::$(terraform output -raw rds_endpoint)"
         
       - name: 'Execute SQL script'
         run: |
-          mysql --host=${{ steps.rds.output.endpoint }} --user=${{env.MYSQL_USER}} --password=${{secrets.MYSQL_PASSWORD}} -P ${{env.MYSQL_PORT}} --database=${{env.MYSQL_DBNAME}} < scripts/migration_prod.sql
+          mysql --host=${{  steps.apply.outputs.rds_endpoint }} --user=${{env.MYSQL_USER}} --password=${{secrets.MYSQL_PASSWORD}} -P 3306 --database=${{env.MYSQL_DBNAME}} < scripts/migration_prod.sql
           - name: Terraform Destroy
       - name: 'Terraform Destroy'
         run: terraform destroy -auto-approve
