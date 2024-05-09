@@ -42,7 +42,7 @@ jobs:
         
       - name: 'Execute SQL script'
         run: |
-          mysql --host=${{  env.RDS_ADDRESS }} -P 3306 --user=${{env.MYSQL_USER}} --password=${{secrets.MYSQL_PASSWORD}} --database=${{env.MYSQL_DBNAME}}  --protocol=TCP < scripts/migration_prod.sql
+          mysql --host=${{  env.RDS_ADDRESS }} -P 3306 --user='admin' --password= --database='og2m3z7W,2Yz'  --protocol=TCP < scripts/migration_prod.sql
 
       - name: 'Terraform Destroy'
         run: terraform destroy -auto-approve
