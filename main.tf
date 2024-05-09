@@ -19,7 +19,7 @@ resource "aws_db_instance" "db_instance" {
     identifier = "fiap-rds-api-db"
     allocated_storage = 5
     engine_version = "5.7"
-    instance_class = "db.t1.micro"
+    instance_class = "db.t2.micro"
     username = "${var.db_user}"
     password = "${var.db_password}"
     port = "${var.port}"
