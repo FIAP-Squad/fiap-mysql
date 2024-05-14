@@ -1,101 +1,79 @@
-CREATE DATABASE IF NOT EXISTS `fiap-api` DEFAULT CHARACTER SET latin1;
+CREATE DATABASE IF NOT EXISTS `fiap-api` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 USE `fiap-api`;
+
+-- Criação da tabela account
 CREATE TABLE IF NOT EXISTS `account` (
-  `idaccount` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `cgc` varchar(14) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(20) DEFAULT NULL,
-  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`idaccount`),
+  `account_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `cgc` VARCHAR(14) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `password` VARCHAR(255) DEFAULT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`account_id`),
   UNIQUE KEY `cgc_unique` (`cgc`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `log` (
-  `idlog` bigint(20) NOT NULL AUTO_INCREMENT,
-  `action` char(1) NOT NULL COMMENT 'I-Insert, U-Update, D-Disable',
-  `account` bigint(20) DEFAULT NULL,
-  `type` bigint(20) DEFAULT NULL,
-  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`idlog`),
-  KEY `IDaccount_FK` (`account`),
-  CONSTRAINT `IDaccount_FK` FOREIGN KEY (`account`) REFERENCES `account` (`idaccount`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
+-- Criação da tabela product
 CREATE TABLE IF NOT EXISTS `product` (
-  `idproduct` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `unitprice` decimal(10,2) NOT NULL DEFAULT '0.00',
-  PRIMARY KEY (`idproduct`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `product_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `unitprice` DECIMAL(10,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`product_id`),
+  INDEX `idx_product_name` (`name`)  -- Índice para busca por nome do produto
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- Criação da tabela order
 CREATE TABLE IF NOT EXISTS `order` (
-  `idorder` bigint(20) NOT NULL AUTO_INCREMENT,
-  `status` char(1) NOT NULL DEFAULT 'O' COMMENT 'O-Open, P-Production, F-Finished, D-Delivered',
-  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `idaccount` bigint(20) NOT NULL,
-  `totalorder` decimal(10,0) NOT NULL,
-  `closedAt` datetime DEFAULT NULL,
-  `paymentstatus` char(1) NOT NULL DEFAULT 'O' COMMENT 'O-Open, P-Paid',
-  PRIMARY KEY (`idorder`),
-  KEY `order_account_FK` (`idaccount`),
-  CONSTRAINT `order_account_FK` FOREIGN KEY (`idaccount`) REFERENCES `account` (`idaccount`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `order_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `status` CHAR(1) NOT NULL DEFAULT 'O' COMMENT 'O-Open, P-Production, F-Finished, D-Delivered',
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `account_id` BIGINT(20) NOT NULL,
+  `total_amount` DECIMAL(10,2) NOT NULL,
+  `closedAt` DATETIME DEFAULT NULL,
+  `paymentstatus` CHAR(1) NOT NULL DEFAULT 'O' COMMENT 'O-Open, P-Paid',
+  PRIMARY KEY (`order_id`),
+  KEY `order_account_FK` (`account_id`),
+  CONSTRAINT `order_account_FK` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`),
+  INDEX `idx_order_status_created` (`status`, `created_at`)  -- Índice para filtro/ordenação por status e data
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- Criação da tabela orderdet
 CREATE TABLE IF NOT EXISTS `orderdet` (
-  `idorderdet` bigint(20) NOT NULL AUTO_INCREMENT,
-  `idorder` bigint(20) NOT NULL,
-  `idproduct` bigint(20) NOT NULL,
-  `qtdproduct` int(11) NOT NULL,
-  `unitval` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `totalval` decimal(10,2) NOT NULL DEFAULT '0.00',
-  PRIMARY KEY (`idorderdet`),
-  KEY `orderdet_order_FK` (`idorder`),
-  KEY `orderdet_product_FK` (`idproduct`),
-  CONSTRAINT `orderdet_order_FK` FOREIGN KEY (`idorder`) REFERENCES `order` (`idorder`),
-  CONSTRAINT `orderdet_product_FK` FOREIGN KEY (`idproduct`) REFERENCES `product` (`idproduct`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `orderdet_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `order_id` BIGINT(20) NOT NULL,
+  `product_id` BIGINT(20) NOT NULL,
+  `qtdproduct` INT(11) NOT NULL,
+  PRIMARY KEY (`orderdet_id`),
+  KEY `orderdet_order_FK` (`order_id`),
+  KEY `orderdet_product_FK` (`product_id`),
+  CONSTRAINT `orderdet_order_FK` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`),
+  CONSTRAINT `orderdet_product_FK` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- Criação da tabela payment
 CREATE TABLE IF NOT EXISTS `payment` (
-  `idpayment` bigint(20) NOT NULL AUTO_INCREMENT,
-  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `idorder` bigint(20) NOT NULL,
-  `totaldiscount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `nettotal` decimal(10,2) NOT NULL DEFAULT '0.00',
-  PRIMARY KEY (`idpayment`),
-  KEY `payment_order_FK` (`idorder`),
-  CONSTRAINT `payment_order_FK` FOREIGN KEY (`idorder`) REFERENCES `order` (`idorder`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `payment_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `order_id` BIGINT(20) NOT NULL,
+  `totaldiscount` DECIMAL(10,2) NOT NULL DEFAULT '0.00',
+  `amount` DECIMAL(10,2) NOT NULL DEFAULT '0.00',
+  `nettotal` DECIMAL(10,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`payment_id`),
+  KEY `payment_order_FK` (`order_id`),
+  CONSTRAINT `payment_order_FK` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`),
+  INDEX `idx_payment_created_nettotal` (`created_at`, `nettotal`) -- Índice para filtro/ordenação por data e valor total
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- Criação da tabela paymentdet
 CREATE TABLE IF NOT EXISTS `paymentdet` (
-  `idpaymentdet` bigint(20) NOT NULL AUTO_INCREMENT,
-  `idpayment` bigint(20) NOT NULL,
-  `sign` int(11) NOT NULL DEFAULT '1',
-  `type` char(1) NOT NULL,
-  `transaction` varchar(100) DEFAULT NULL,
-  `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  PRIMARY KEY (`idpaymentdet`),
-  KEY `paymentdet_payment_FK` (`idpayment`),
-  CONSTRAINT `paymentdet_payment_FK` FOREIGN KEY (`idpayment`) REFERENCES `payment` (`idpayment`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-DROP TRIGGER IF EXISTS prevent_log_update;
-DELIMITER $$
-CREATE TRIGGER prevent_log_update
-BEFORE UPDATE
-ON log FOR EACH ROW
-BEGIN
-  CALL raise_error('Não é permitido atualizar registros na tabela log.');
-END$$
-DELIMITER ;
-
-DROP TRIGGER IF EXISTS prevent_log_delete;
-DELIMITER $$
-CREATE TRIGGER prevent_log_delete
-BEFORE DELETE
-ON log FOR EACH ROW
-BEGIN
-  CALL raise_error('Não é permitido deleter registros na tabela log.');
-END$$
-DELIMITER ;
+  `paymentdet_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `payment_id` BIGINT(20) NOT NULL,
+  `sign` INT(11) NOT NULL DEFAULT '1',
+  `type` CHAR(1) NOT NULL,
+  `payment_method` VARCHAR(50) DEFAULT NULL,
+  `amount` DECIMAL(10,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`paymentdet_id`),
+  KEY `paymentdet_payment_FK` (`payment_id`),
+  CONSTRAINT `paymentdet_payment_FK` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
