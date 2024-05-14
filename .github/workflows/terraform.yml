@@ -6,7 +6,7 @@ on:
       - 'main'
   pull_request:
     branches:
-      - 'feat/provision-aws-rds'
+      - 'main'
 permissions:
   id-token: write
   contents: read
