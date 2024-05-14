@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS `fiap-api-2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS `fiap-api` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-USE `fiap-api-2`;
+USE `fiap-api`;
 
 -- Criação da tabela account
 CREATE TABLE IF NOT EXISTS `account` (
