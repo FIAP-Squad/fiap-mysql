@@ -1,5 +1,5 @@
 resource "aws_security_group" "security_group" {
-  name        = "fiap-rds-api-sg"
+  name        = "fiap-rds-api-sg-2"
   description = "Allow MySQL inbound traffic"
   ingress {
     from_port   = 3306
