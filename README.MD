@@ -27,8 +27,95 @@ A sintaxe simples e intuitiva do MySQL contribui para uma curva de aprendizado r
 </p>
 
 * account: armazena informações sobre os clientes, como nome, CGC, email e senha (criptografada).
+
+name:
+Tipo: varchar(191)
+Descrição: Nome completo do usuário.
+Restrições: Não pode ser nulo.
+cpf:
+Tipo: varchar(191)
+Descrição: CPF (Cadastro de Pessoa Física) do usuário.
+Restrições: Não pode ser nulo.
+email:
+Tipo: varchar(191)
+Descrição: Endereço de email do usuário.
+Restrições: Não pode ser nulo. Deve ser único na tabela (chave única account_email_key).
+password:
+Tipo: varchar(191)
+Descrição: Senha do usuário (armazenada de forma segura, idealmente com hash e salt).
+Restrições: Não pode ser nulo.
+accessToken:
+Tipo: varchar(191)
+Descrição: Token de acesso usado para autenticar o usuário na API.
+Restrições: Pode ser nulo.
+role:
+Tipo: varchar(191)
+Descrição: Papel/permissão do usuário na aplicação (ex: "admin", "user", "editor").
+Restrições: Pode ser nulo.
+
 * product: contém detalhes sobre os produtos, incluindo nome e preço unitário.
+
+category:
+Tipo: varchar(191)
+Descrição: Categoria do produto (ex: "Eletrônicos", "Roupas", "Livros").
+Restrições: Não pode ser nulo.
+name:
+Tipo: varchar(191)
+Descrição: Nome do produto.
+Restrições: Não pode ser nulo.
+price:
+Tipo: int(11)
+Descrição: Preço do produto, em centavos (ex: 1999 para R$ 19,99).
+Restrições: Não pode ser nulo.
+description:
+Tipo: varchar(191)
+Descrição: Descrição detalhada do produto.
+Restrições: Não pode ser nulo.
+image:
+Tipo: varchar(191)
+Descrição: URL ou caminho para a imagem do produto.
+Restrições: Não pode ser nulo.
+
 * order: registra os pedidos realizados, incluindo status, data de criação, cliente associado, valor total, data de fechamento e status de pagamento.
+
+category:
+Tipo: varchar(191)
+Descrição: Categoria do produto (ex: "Eletrônicos", "Roupas", "Livros").
+Restrições: Não pode ser nulo.
+name:
+Tipo: varchar(191)
+Descrição: Nome do produto.
+Restrições: Não pode ser nulo.
+price:
+Tipo: int(11)
+Descrição: Preço do produto, em centavos (ex: 1999 para R$ 19,99).
+Restrições: Não pode ser nulo.
+description:
+Tipo: varchar(191)
+Descrição: Descrição detalhada do produto.
+Restrições: Não pode ser nulo.
+image:
+Tipo: varchar(191)
+Descrição: URL ou caminho para a imagem do produto.
+Restrições: Não pode ser nulo.
+
 * orderdet: detalhes dos itens de cada pedido, relacionando produtos e quantidades.
-* payment: informações sobre os pagamentos, como data, desconto total, valor bruto, valor líquido e pedido associado.
-* paymentdet: detalha cada pagamento, incluindo sinal, tipo, método de pagamento e valor.
+
+number:
+Tipo: int(11)
+Descrição: Número de identificação do pedido.
+Restrições: Pode ser nulo, o que sugere que a numeração do pedido pode ser gerada ou atribuída posteriormente.
+customer:
+Tipo: varchar(191)
+Descrição: Identificador do cliente que realizou o pedido. Assumindo a estrutura do banco, provavelmente referencia o id da tabela account.
+Restrições: Não pode ser nulo.
+status:
+Tipo: varchar(191)
+Descrição: Status atual do pedido (ex: "Pendente", "Processando", "Enviado", "Entregue", "Cancelado").
+Restrições: Não pode ser nulo.
+amount:
+Tipo: int(11)
+Descrição: Valor total do pedido, em centavos (ex: 2999 para R$ 29,99).
+Restrições: Não pode ser nulo.
+
+* erros: informações de erros da aplicação.
