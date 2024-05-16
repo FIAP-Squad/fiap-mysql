@@ -100,6 +100,7 @@ Descrição: URL ou caminho para a imagem do produto.
 Restrições: Não pode ser nulo.
 
 * orderdet: detalhes dos itens de cada pedido, relacionando produtos e quantidades.
+<<<<<<< HEAD
 
 number:
 Tipo: int(11)
@@ -119,3 +120,7 @@ Descrição: Valor total do pedido, em centavos (ex: 2999 para R$ 29,99).
 Restrições: Não pode ser nulo.
 
 * erros: informações de erros da aplicação.
+=======
+* payment: informações sobre os pagamentos, como data, desconto total, valor bruto, valor líquido e pedido associado.
+* paymentdet: detalha cada pagamento, incluindo sinal, tipo, método de pagamento e valor.
+>>>>>>> main
