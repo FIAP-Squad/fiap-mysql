@@ -28,94 +28,94 @@ A sintaxe simples e intuitiva do MySQL contribui para uma curva de aprendizado r
 
 **account**: armazena informações sobre os clientes, como nome, CGC, email e senha (criptografada).
 
-_name_:
-Tipo: varchar(191)\
-Descrição: Nome completo do usuário.\
-Restrições: Não pode ser nulo.\
-_cpf_:
-Tipo: varchar(191)\
-Descrição: CPF (Cadastro de Pessoa Física) do usuário.\
-Restrições: Não pode ser nulo.\
-_email_:
-Tipo: varchar(191)
-Descrição: Endereço de email do usuário.
-Restrições: Não pode ser nulo. Deve ser único na tabela.
-_password_:
-Tipo: varchar(191)
-Descrição: Senha do usuário (armazenada de forma segura, idealmente com hash e salt).
-Restrições: Não pode ser nulo.
-_accessToken_:
-Tipo: varchar(191)
-Descrição: Token de acesso usado para autenticar o usuário na API.
-Restrições: Pode ser nulo.
-_role_:
-Tipo: varchar(191)
-Descrição: Papel/permissão do usuário na aplicação (ex: "admin", "user", "editor").
-Restrições: Pode ser nulo.
+_name_:<br>
+Tipo: varchar(191)<br>
+Descrição: Nome completo do usuário.<br>
+Restrições: Não pode ser nulo.<br>
+_cpf_:<br>
+Tipo: varchar(191)<br>
+Descrição: CPF (Cadastro de Pessoa Física) do usuário.
+Restrições: Não pode ser nulo.<br>
+_email_:<br>
+Tipo: varchar(191)<br>
+Descrição: Endereço de email do usuário.<br>
+Restrições: Não pode ser nulo. Deve ser único na tabela.<br>
+_password_:<br>
+Tipo: varchar(191)<br>
+Descrição: Senha do usuário (armazenada de forma segura, idealmente com hash e salt).<br>
+Restrições: Não pode ser nulo.<br>
+_accessToken_:<br>
+Tipo: varchar(191)<br>
+Descrição: Token de acesso usado para autenticar o usuário na API.<br>
+Restrições: Pode ser nulo.<br>
+_role_:<br>
+Tipo: varchar(191)<br>
+Descrição: Papel/permissão do usuário na aplicação (ex: "admin", "user", "editor").<br>
+Restrições: Pode ser nulo.<br>
 
 **product**: contém detalhes sobre os produtos, incluindo nome e preço unitário.
 
-_category_:
-Tipo: varchar(191)
-Descrição: Categoria do produto (ex: "Eletrônicos", "Roupas", "Livros").
-Restrições: Não pode ser nulo.
-_name_:
-Tipo: varchar(191)
-Descrição: Nome do produto.
-Restrições: Não pode ser nulo.
-_price_:
-Tipo: int(11)
-Descrição: Preço do produto, em centavos (ex: 1999 para R$ 19,99).
-Restrições: Não pode ser nulo.
-_description_:
-Tipo: varchar(191)
-Descrição: Descrição detalhada do produto.
-Restrições: Não pode ser nulo.
-_image_:
-Tipo: varchar(191)
-Descrição: URL ou caminho para a imagem do produto.
-Restrições: Não pode ser nulo.
+_category_:<br>
+Tipo: varchar(191)<br>
+Descrição: Categoria do produto (ex: "Eletrônicos", "Roupas", "Livros").<br>
+Restrições: Não pode ser nulo.<br>
+_name_:<br>
+Tipo: varchar(191)<br>
+Descrição: Nome do produto.<br>
+Restrições: Não pode ser nulo.<br>
+_price_:<br>
+Tipo: int(11)<br>
+Descrição: Preço do produto, em centavos (ex: 1999 para R$ 19,99).<br>
+Restrições: Não pode ser nulo.<br>
+_description_:<br>
+Tipo: varchar(191)<br>
+Descrição: Descrição detalhada do produto.<br>
+Restrições: Não pode ser nulo.<br>
+_image_:<br>
+Tipo: varchar(191)<br>
+Descrição: URL ou caminho para a imagem do produto.<br>
+Restrições: Não pode ser nulo.<br>
 
 **order**: registra os pedidos realizados, incluindo status, data de criação, cliente associado, valor total, data de fechamento e status de pagamento.
 
-_number_:
-Tipo: int(11)
-Descrição: Número de identificação do pedido.
-Restrições: Pode ser nulo, o que sugere que a numeração do pedido pode ser gerada ou atribuída posteriormente.
-_customer_:
-Tipo: varchar(191)
-Descrição: Identificador do cliente que realizou o pedido. Assumindo a estrutura do banco, provavelmente referencia o id da tabela account.
-Restrições: Não pode ser nulo.
-_status_:
-Tipo: varchar(191)
+_number_:<br>
+Tipo: int(11)<br>
+Descrição: Número de identificação do pedido.<br>
+Restrições: Pode ser nulo, o que sugere que a numeração do pedido pode ser gerada ou atribuída posteriormente.<br>
+_customer_:<br>
+Tipo: varchar(191)<br>
+Descrição: Identificador do cliente que realizou o pedido. Assumindo a estrutura do banco, provavelmente referencia o id da tabela account.<br>
+Restrições: Não pode ser nulo.<br>
+_status_:<br>
+Tipo: varchar(191)<br>
 Descrição: Status atual do pedido (ex: "Pendente", "Processando", "Enviado", "Entregue", "Cancelado").
-Restrições: Não pode ser nulo.
-_amount_:
-Tipo: int(11)
-Descrição: Valor total do pedido, em centavos (ex: 2999 para R$ 29,99).
-Restrições: Não pode ser nulo.
+Restrições: Não pode ser nulo.<br>
+_amount_:<br>
+Tipo: int(11)<br>
+Descrição: Valor total do pedido, em centavos (ex: 2999 para R$ 29,99).<br>
+Restrições: Não pode ser nulo.<br>
 
 **orderdet**: detalhes dos itens de cada pedido, relacionando produtos e quantidades.
 
-_totalItems_:
-Tipo: int(11)
-Descrição: Quantidade total do item específico no pedido.
-Restrições: Não pode ser nulo.
-_unitPrice_:
-Tipo: int(11)
-Descrição: Preço unitário do item no momento da compra, em centavos.
-Restrições: Não pode ser nulo.
-_amount_:
-Tipo: int(11)
-Descrição: Valor total do item no pedido (quantidade x preço unitário), em centavos.
-Restrições: Não pode ser nulo.
-_orderId_:
-Tipo: varchar(191)
-Descrição: Identificador do pedido ao qual o item pertence. É uma chave estrangeira que referencia a coluna id da tabela order.
-Restrições: Não pode ser nulo. A restrição orderItem_orderId_fkey garante a integridade referencial com a tabela order, atualizando em cascata caso o id do pedido seja modificado.
-_productId_:
-Tipo: varchar(191)
-Descrição: Identificador do produto que compõe o item do pedido. É uma chave estrangeira que referencia a coluna id da tabela product.
-Restrições: Não pode ser nulo. A restrição orderItem_productId_fkey garante a integridade referencial com a tabela product, atualizando em cascata caso o id do produto seja modificado.
+_totalItems_:<br>
+Tipo: int(11)<br>
+Descrição: Quantidade total do item específico no pedido.<br>
+Restrições: Não pode ser nulo.<br>
+_unitPrice_:<br>
+Tipo: int(11)<br>
+Descrição: Preço unitário do item no momento da compra, em centavos.<br>
+Restrições: Não pode ser nulo.<br>
+_amount_:<br>
+Tipo: int(11)<br>
+Descrição: Valor total do item no pedido (quantidade x preço unitário), em centavos.<br>
+Restrições: Não pode ser nulo.<br>
+_orderId_:<br>
+Tipo: varchar(191)<br>
+Descrição: Identificador do pedido ao qual o item pertence. É uma chave estrangeira que referencia a coluna id da tabela order.<br>
+Restrições: Não pode ser nulo. A restrição orderItem_orderId_fkey garante a integridade referencial com a tabela order, atualizando em cascata caso o id do pedido seja modificado.<br>
+_productId_:<br>
+Tipo: varchar(191)<br>
+Descrição: Identificador do produto que compõe o item do pedido. É uma chave estrangeira que referencia a coluna id da tabela product.<br>
+Restrições: Não pode ser nulo. A restrição orderItem_productId_fkey garante a integridade referencial com a tabela product, atualizando em cascata caso o id do produto seja modificado.<br>
 
 **erros**: informações de erros da aplicação.
