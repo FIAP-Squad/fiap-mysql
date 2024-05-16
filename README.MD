@@ -20,7 +20,7 @@ A sintaxe simples e intuitiva do MySQL contribui para uma curva de aprendizado r
 
 <div style="text-align: justify">O banco de dados fiap-api foi projetado para armazenar e gerenciar informações relacionadas a um sistema de pedidos. Sua estrutura, definida pelo script SQL apresentado, demonstra atenção à organização, performance e segurança dos dados.</div>
 
-<div style="text-align: justify">O banco de dados é composto por sete entidades principais: account, product, order, orderdet, payment, paymentdet, e suas respectivas tabelas de log: account_log, product_log, e order_log.</div>
+<div style="text-align: justify">O banco de dados é composto por sete entidades principais: account, product, order, orderdet, payment e paymentdet.</div>
 
 <p align="center">
   <img src="./public/fiap-api-db-er.png" alt="Diagrama ER do Banco de dados">
@@ -32,4 +32,3 @@ A sintaxe simples e intuitiva do MySQL contribui para uma curva de aprendizado r
 * orderdet: detalhes dos itens de cada pedido, relacionando produtos e quantidades.
 * payment: informações sobre os pagamentos, como data, desconto total, valor bruto, valor líquido e pedido associado.
 * paymentdet: detalha cada pagamento, incluindo sinal, tipo, método de pagamento e valor.
-* _log: são tabelas de uso do banco armazenado versões de dados, alimentada através de triggers.
