@@ -26,101 +26,96 @@ A sintaxe simples e intuitiva do MySQL contribui para uma curva de aprendizado r
   <img src="./public/fiap-api-db-er.png" alt="Diagrama ER do Banco de dados">
 </p>
 
-* account: armazena informações sobre os clientes, como nome, CGC, email e senha (criptografada).
+**account**: armazena informações sobre os clientes, como nome, CGC, email e senha (criptografada).
 
-name:
+_name_:
 Tipo: varchar(191)
 Descrição: Nome completo do usuário.
 Restrições: Não pode ser nulo.
-cpf:
+_cpf_:
 Tipo: varchar(191)
 Descrição: CPF (Cadastro de Pessoa Física) do usuário.
 Restrições: Não pode ser nulo.
-email:
+_email_:
 Tipo: varchar(191)
 Descrição: Endereço de email do usuário.
-Restrições: Não pode ser nulo. Deve ser único na tabela (chave única account_email_key).
-password:
+Restrições: Não pode ser nulo. Deve ser único na tabela.
+_password_:
 Tipo: varchar(191)
 Descrição: Senha do usuário (armazenada de forma segura, idealmente com hash e salt).
 Restrições: Não pode ser nulo.
-accessToken:
+_accessToken_:
 Tipo: varchar(191)
 Descrição: Token de acesso usado para autenticar o usuário na API.
 Restrições: Pode ser nulo.
-role:
+_role_:
 Tipo: varchar(191)
 Descrição: Papel/permissão do usuário na aplicação (ex: "admin", "user", "editor").
 Restrições: Pode ser nulo.
 
-* product: contém detalhes sobre os produtos, incluindo nome e preço unitário.
+**product**: contém detalhes sobre os produtos, incluindo nome e preço unitário.
 
-category:
+_category_:
 Tipo: varchar(191)
 Descrição: Categoria do produto (ex: "Eletrônicos", "Roupas", "Livros").
 Restrições: Não pode ser nulo.
-name:
+_name_:
 Tipo: varchar(191)
 Descrição: Nome do produto.
 Restrições: Não pode ser nulo.
-price:
+_price_:
 Tipo: int(11)
 Descrição: Preço do produto, em centavos (ex: 1999 para R$ 19,99).
 Restrições: Não pode ser nulo.
-description:
+_description_:
 Tipo: varchar(191)
 Descrição: Descrição detalhada do produto.
 Restrições: Não pode ser nulo.
-image:
+_image_:
 Tipo: varchar(191)
 Descrição: URL ou caminho para a imagem do produto.
 Restrições: Não pode ser nulo.
 
-* order: registra os pedidos realizados, incluindo status, data de criação, cliente associado, valor total, data de fechamento e status de pagamento.
+**order**: registra os pedidos realizados, incluindo status, data de criação, cliente associado, valor total, data de fechamento e status de pagamento.
 
-category:
-Tipo: varchar(191)
-Descrição: Categoria do produto (ex: "Eletrônicos", "Roupas", "Livros").
-Restrições: Não pode ser nulo.
-name:
-Tipo: varchar(191)
-Descrição: Nome do produto.
-Restrições: Não pode ser nulo.
-price:
-Tipo: int(11)
-Descrição: Preço do produto, em centavos (ex: 1999 para R$ 19,99).
-Restrições: Não pode ser nulo.
-description:
-Tipo: varchar(191)
-Descrição: Descrição detalhada do produto.
-Restrições: Não pode ser nulo.
-image:
-Tipo: varchar(191)
-Descrição: URL ou caminho para a imagem do produto.
-Restrições: Não pode ser nulo.
-
-* orderdet: detalhes dos itens de cada pedido, relacionando produtos e quantidades.
-<<<<<<< HEAD
-
-number:
+_number_:
 Tipo: int(11)
 Descrição: Número de identificação do pedido.
 Restrições: Pode ser nulo, o que sugere que a numeração do pedido pode ser gerada ou atribuída posteriormente.
-customer:
+_customer_:
 Tipo: varchar(191)
 Descrição: Identificador do cliente que realizou o pedido. Assumindo a estrutura do banco, provavelmente referencia o id da tabela account.
 Restrições: Não pode ser nulo.
-status:
+_status_:
 Tipo: varchar(191)
 Descrição: Status atual do pedido (ex: "Pendente", "Processando", "Enviado", "Entregue", "Cancelado").
 Restrições: Não pode ser nulo.
-amount:
+_amount_:
 Tipo: int(11)
 Descrição: Valor total do pedido, em centavos (ex: 2999 para R$ 29,99).
 Restrições: Não pode ser nulo.
 
-* erros: informações de erros da aplicação.
-=======
-* payment: informações sobre os pagamentos, como data, desconto total, valor bruto, valor líquido e pedido associado.
-* paymentdet: detalha cada pagamento, incluindo sinal, tipo, método de pagamento e valor.
->>>>>>> main
+**orderdet**: detalhes dos itens de cada pedido, relacionando produtos e quantidades.
+
+_totalItems_:
+Tipo: int(11)
+Descrição: Quantidade total do item específico no pedido.
+Restrições: Não pode ser nulo.
+_unitPrice_:
+Tipo: int(11)
+Descrição: Preço unitário do item no momento da compra, em centavos.
+Restrições: Não pode ser nulo.
+_amount_:
+Tipo: int(11)
+Descrição: Valor total do item no pedido (quantidade x preço unitário), em centavos.
+Restrições: Não pode ser nulo.
+_orderId_:
+Tipo: varchar(191)
+Descrição: Identificador do pedido ao qual o item pertence. É uma chave estrangeira que referencia a coluna id da tabela order.
+Restrições: Não pode ser nulo. A restrição orderItem_orderId_fkey garante a integridade referencial com a tabela order, atualizando em cascata caso o id do pedido seja modificado.
+_productId_:
+Tipo: varchar(191)
+Descrição: Identificador do produto que compõe o item do pedido. É uma chave estrangeira que referencia a coluna id da tabela product.
+Restrições: Não pode ser nulo. A restrição orderItem_productId_fkey garante a integridade referencial com a tabela product, atualizando em cascata caso o id do produto seja modificado.
+
+**erros**: informações de erros da aplicação.
