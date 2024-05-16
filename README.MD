@@ -29,13 +29,13 @@ A sintaxe simples e intuitiva do MySQL contribui para uma curva de aprendizado r
 **account**: armazena informações sobre os clientes, como nome, CGC, email e senha (criptografada).
 
 _name_:
-Tipo: varchar(191)</b>
-Descrição: Nome completo do usuário.</b>
-Restrições: Não pode ser nulo.</b>
+Tipo: varchar(191)\
+Descrição: Nome completo do usuário.\
+Restrições: Não pode ser nulo.\
 _cpf_:
-Tipo: varchar(191)</b>
-Descrição: CPF (Cadastro de Pessoa Física) do usuário.</b>
-Restrições: Não pode ser nulo.</b>
+Tipo: varchar(191)\
+Descrição: CPF (Cadastro de Pessoa Física) do usuário.\
+Restrições: Não pode ser nulo.\
 _email_:
 Tipo: varchar(191)
 Descrição: Endereço de email do usuário.
